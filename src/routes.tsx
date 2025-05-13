@@ -12,11 +12,15 @@ export const AppRoutes = () => {
                     <Route path={PATHS.USER_VIEW.USER_PROFILE.path} element={<Views.UserProfile/>} />
                 </Route>
                 
-                <Route path={PATHS.LOGIN.path} element={<Views.Login/>} />
-                <Route path={PATHS.SIGNUP.path} element={<Views.Signup/>}/>
+                <Route path={PATHS.AUTH.path} element={<Views.Authentication/>}>
+                    <Route path={PATHS.AUTH_PAGE.LOGIN.path} element={<Views.Login/>} />
+                    <Route path={PATHS.AUTH_PAGE.SIGNUP.path} element={<Views.Signup/>}/>
+                </Route>
+
                 <Route path={PATHS.NOT_FOUND.path} element={<Views.NotFound/>}/>
 
-                <Route path="/" element={<Navigate to={PATHS.LOGIN.path} />} />
+                <Route path="/" element={<Navigate to="/account/login" />
+} />
             </Routes>
         </BrowserRouter>
     )

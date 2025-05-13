@@ -3,13 +3,19 @@ export const PATHS = {
         path: "/user",
         label: "User Main"
     },
-    LOGIN: {
-        path: "/login",
-        label: "Login"
+    AUTH: {
+        path: "/account",
+        label: "Account"
     },
-    SIGNUP: {
-        path: "/signup",
-        label: "Sign Up"
+    AUTH_PAGE: {
+        LOGIN: {
+            path: "login",
+            label: "Login"
+        },
+        SIGNUP: {
+            path: "signup",
+            label: "Sign Up"
+        },
     },
     NOT_FOUND: {
         path: "*",
