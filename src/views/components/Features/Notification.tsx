@@ -88,7 +88,7 @@ const Notification = () => {
 
       {/* Notification Popup */}
       {showPopup && (
-        <div className="absolute top-full mt-2 right-0 w-75 bg-white rounded-md pt-5 px-5 pb-5 z-50 shadow-[0_0_5px_rgba(0,0,0,0.1)] text-[#1F2937]">
+        <div className="absolute top-full mt-2 right-0 w-87 bg-white rounded-md pt-5 px-5 pb-5 z-50 shadow-[0_0_5px_rgba(0,0,0,0.1)] text-[#1F2937]">
           <p className="pb-2 font-semibold">Notifications</p>
 
           {notifications.length ? (

@@ -138,13 +138,13 @@ const MyDetailsMini = () => {
   }, []);
 
   return (
-    <div className="bg-white p-4">
+    <div className="bg-white p-4 rounded-md">
       {myDetails ? (
         <div className="flex flex-col items-center">
           {/* Header Image with Profile Picture */}
           {myDetails.header_picture && (
             <div className="relative w-full h-30">
-              <img src={myDetails.header_picture} alt="Header" className="w-full h-full object-cover" />
+              <img src={myDetails.header_picture} alt="Header" className="w-full h-full object-cover rounded-md" />
               <div className="absolute bottom-[-40px] left-1/2 transform -translate-x-1/2">
                 {myDetails.profile_picture ? (
                   <img src={myDetails.profile_picture} alt="Profile" className="w-24 h-24 rounded-full border-5 border-white" />
@@ -156,26 +156,26 @@ const MyDetailsMini = () => {
           )}
 
           {/* User Information */}
-          <p className="mt-11 text-lg font-semibold">{myDetails.first_name} {myDetails.last_name}</p>
-          <p className="text-gray-500">@{myDetails.username}</p>
+          <p className="mt-11 text-lg font-semibold text-[# text-[#1F2937]">{myDetails.first_name} {myDetails.last_name}</p>
+          <p className="text-gray-500 text-sm">@{myDetails.username}</p>
 
           {/* Stats Section */}
-          <div className="flex flex-row justify-center gap-10 mt-4">
+          <div className="flex flex-row justify-center gap-10 mt-2 text-[#1F2937]">
             <div className="flex flex-col items-center">
-              <p>{myDetails.post_count}</p>
-              <p>Posts</p>
+              <p className="font-semibold">{myDetails.post_count}</p>
+              <p className="text-xs text-[#8E939A]">Posts</p>
             </div>
             <div className="flex flex-col items-center">
-              <p>{myDetails.friend_count}</p>
-              <p>Friends</p>
+              <p className="font-semibold">{myDetails.friend_count}</p>
+              <p className="text-xs text-[#8E939A]">Friends</p>
             </div>
             <div className="flex flex-col items-center">
-              <p>{myDetails.post_like_count}</p>
-              <p>Likes</p>
+              <p className="font-semibold">{myDetails.post_like_count}</p>
+              <p className="text-xs text-[#8E939A]">Likes</p>
             </div>
           </div>
 
-          <button className="bg-[#F282B0] text-white w-full mt-4">My Profile</button>
+          <button className="bg-[#F282B0] text-white text-sm font-semibold p-2 w-full mt-4 rounded-md">My Profile</button>
         </div>
       ) : (
         <p>Loading...</p>
