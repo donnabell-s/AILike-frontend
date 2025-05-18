@@ -8,7 +8,8 @@ interface AuthLayoutWrapperProps {
 const AuthLayoutWrapper: React.FC<AuthLayoutWrapperProps> = ({ variant, children }) => {
   const isLogin = variant === "login";
 
-  const title = isLogin ? "Sign Into Account" : "Create an Account";
+  const title = isLogin ? "Welcome Back!" : "Create an Account";
+  const caption = isLogin ? "Log in and let Alike find your match." : "Join Alike and meet your match.";
   const footerText = isLogin ? "First time here?" : "Already have an account?";
   const footerLinkText = isLogin ? "Create an account." : "Sign in now.";
   const footerLinkHref = isLogin ? "/account/signup" : "/account/login";
@@ -17,11 +18,12 @@ const AuthLayoutWrapper: React.FC<AuthLayoutWrapperProps> = ({ variant, children
     <div className="w-full min-h-screen flex items-center justify-center px-5 py-5 text-[#8E939A]">
       <div className="w-full max-w-[500px] flex flex-col gap-5 lg:gap-8 h-full">
         {/* Header */}
-        <div className="flex flex-col items-center gap-4 text-center">
+        <div className="flex flex-col items-center text-center">
           <p className="font-semibold text-[32px] md:text-[40px] lg:text-[48px] text-[#C53771]">
             {title}
           </p>
-          <div className="w-20 h-1 bg-[#C53771] rounded-full" />
+          <p className="text-sm font-semibold text-[#86CAA3]">{caption}</p>
+          {/* <div className="w-20 h-1 bg-[#C53771] rounded-full" /> */}
         </div>
 
         {/* Main Form Content */}

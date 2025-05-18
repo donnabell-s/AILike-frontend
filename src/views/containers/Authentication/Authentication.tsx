@@ -17,7 +17,7 @@ const Authentication = () => {
         }, [navigate]);
 
     return (
-        <div className="w-full min-h-screen flex flex-col md:flex-row">
+        <div className="xl:px-20 w-full min-h-screen flex flex-col md:flex-row">
             <div className="w-full md:w-1/2">
                     <Components.AuthCarousel />
             </div>

@@ -11,7 +11,7 @@ const Header: React.FC<HeaderProps> = ({ onLogout }) => {
     return (
         <div className="sticky top-0 z-50 flex justify-between py-6 pl-10 pr-5 bg-[#FFFFFF] ">
             <div className="flex justify-center items-center">
-                <img src="/logo.svg" className="h-10" alt="Logo" />
+                <img src="/logo.svg" className="h-8" alt="Logo" />
             </div>
             <div className="flex flex-row gap-6">
                 <Components.HeaderLink

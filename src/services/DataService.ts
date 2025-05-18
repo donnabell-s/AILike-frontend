@@ -152,19 +152,73 @@ export const getMyDetails = async () => {
     }
 }
 
-export const updateProfileImages = async (profileFile: File | null, headerFile: File | null) => {
+export const getUserDetail = async (id: number) => {
     const token = localStorage.getItem('accessToken');
     if (!token) return null;
 
+    try {
+        const response = await fetch(`${API_URL}/users/${id}/`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            console.error('Failed to fetch my details:', response.status);
+            return null;
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching my details:', error);
+        return null;
+    }
+}
+
+
+// export const updateProfileImages = async (profileFile: File | null, headerFile: File | null) => {
+//     const token = localStorage.getItem('accessToken');
+//     if (!token) return null;
+
+//     const formData = new FormData();
+
+//     if (profileFile) {
+//         formData.append('profile_picture', profileFile);
+//     }
+
+//     if (headerFile) {
+//         formData.append('header_picture', headerFile);
+//     }
+
+//     try {
+//         const response = await fetch(`${API_URL}/user/`, {
+//             method: 'PATCH',
+//             headers: {
+//                 Authorization: `Bearer ${token}`,
+//             },
+//             body: formData,
+//         });
+
+//         if (!response.ok) {
+//             console.error('Failed to upload images:', response.status);
+//             return null;
+//         }
+
+//         return await response.json();
+//     } catch (error) {
+//         console.error('Error uploading profile/header images:', error);
+//         return null;
+//     }
+// };
+
+export const updateProfilePicture = async (profileFile: File) => {
+    const token = localStorage.getItem('accessToken');
+    if (!token || !profileFile) return null;
+
     const formData = new FormData();
-
-    if (profileFile) {
-        formData.append('profile_picture', profileFile);
-    }
-
-    if (headerFile) {
-        formData.append('header_picture', headerFile);
-    }
+    formData.append('profile_picture', profileFile);
 
     try {
         const response = await fetch(`${API_URL}/user/`, {
@@ -176,16 +230,46 @@ export const updateProfileImages = async (profileFile: File | null, headerFile: 
         });
 
         if (!response.ok) {
-            console.error('Failed to upload images:', response.status);
+            console.error('Failed to upload profile picture:', response.status);
             return null;
         }
 
         return await response.json();
     } catch (error) {
-        console.error('Error uploading profile/header images:', error);
+        console.error('Error uploading profile picture:', error);
         return null;
     }
 };
+
+
+export const updateHeaderPicture = async (headerFile: File) => {
+    const token = localStorage.getItem('accessToken');
+    if (!token || !headerFile) return null;
+
+    const formData = new FormData();
+    formData.append('header_picture', headerFile);
+
+    try {
+        const response = await fetch(`${API_URL}/user/`, {
+            method: 'PATCH',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+        });
+
+        if (!response.ok) {
+            console.error('Failed to upload header picture:', response.status);
+            return null;
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error uploading header picture:', error);
+        return null;
+    }
+};
+
 
 
 export const getProfilePictureUrl = async (userId: number): Promise<string | null> => {
@@ -235,3 +319,87 @@ export const getHeaderPictureUrl = async (userId: number): Promise<string | null
         return null;
     }
 };
+
+export const getAllPosts = async () => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) return null;
+
+    try {
+        const response = await fetch(`${API_URL}/posts/`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            console.error('Failed to fetch my details:', response.status);
+            return null;
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching my details:', error);
+        return null;
+    }
+}
+
+
+export const makePost = async (content: string) => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) return null;
+
+    const response = await fetch(`${API_URL}/posts/`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content }),
+    });
+
+    if (!response.ok) {
+        throw new Error('Making Post Failed');
+    }
+
+    return await response.json();
+}
+
+export const likePost = async (postId: number) => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) return null;
+
+    const response = await fetch(`${API_URL}/posts/${postId}/like/`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Liking Post Failed');
+    }
+
+
+}
+
+// export const unlikePost = async (postId: number) => {
+//     const token = localStorage.getItem('accessToken');
+//     if (!token) return null;
+
+//     const response = await fetch(`${API_URL}/posts/${postId}/like/`, {
+//         method: 'DELETE',
+//         headers: {
+//             Authorization: `Bearer ${token}`,
+//             'Content-Type': 'application/json',
+//         },
+//     });
+
+//     if (!response.ok) {
+//         throw new Error('Unliking Post Failed');
+//     }
+
+//     return await response.json();
+// }

@@ -101,8 +101,6 @@
 
 // export default MyDetailsMini;
 
-import { useEffect, useState } from "react";
-import * as Services from "../../../services";
 
 interface MyDetailsMiniData {
   id: number;
@@ -116,27 +114,7 @@ interface MyDetailsMiniData {
   header_picture?: string;
 }
 
-const MyDetailsMini = () => {
-  const [myDetails, setMyDetails] = useState<MyDetailsMiniData | null>(null);
-
-  useEffect(() => {
-    const fetchDetails = async () => {
-      const data = await Services.getMyDetails();
-      if (data) {
-        const profilePicUrl = await Services.getProfilePictureUrl(data.id);
-        const headerPicUrl = await Services.getHeaderPictureUrl(data.id);
-
-        setMyDetails({
-          ...data,
-          profile_picture: profilePicUrl,
-          header_picture: headerPicUrl,
-        });
-      }
-    };
-
-    fetchDetails();
-  }, []);
-
+const MyDetailsMini = ({ myDetails }: { myDetails: MyDetailsMiniData | null }) => {
   return (
     <div className="bg-white p-4 rounded-md">
       {myDetails ? (
@@ -144,10 +122,18 @@ const MyDetailsMini = () => {
           {/* Header Image with Profile Picture */}
           {myDetails.header_picture && (
             <div className="relative w-full h-30">
-              <img src={myDetails.header_picture} alt="Header" className="w-full h-full object-cover rounded-md" />
+              <img
+                src={myDetails.header_picture}
+                alt="Header"
+                className="w-full h-full object-cover rounded-md"
+              />
               <div className="absolute bottom-[-40px] left-1/2 transform -translate-x-1/2">
                 {myDetails.profile_picture ? (
-                  <img src={myDetails.profile_picture} alt="Profile" className="w-24 h-24 rounded-full border-5 border-white" />
+                  <img
+                    src={myDetails.profile_picture}
+                    alt="Profile"
+                    className="w-24 h-24 rounded-full border-5 border-white"
+                  />
                 ) : (
                   <div className="w-24 h-24 bg-gray-300 rounded-full border-4 border-white" />
                 )}
@@ -156,7 +142,9 @@ const MyDetailsMini = () => {
           )}
 
           {/* User Information */}
-          <p className="mt-11 text-lg font-semibold text-[# text-[#1F2937]">{myDetails.first_name} {myDetails.last_name}</p>
+          <p className="mt-11 text-lg font-semibold text-[#1F2937]">
+            {myDetails.first_name} {myDetails.last_name}
+          </p>
           <p className="text-gray-500 text-sm">@{myDetails.username}</p>
 
           {/* Stats Section */}
@@ -175,7 +163,9 @@ const MyDetailsMini = () => {
             </div>
           </div>
 
-          <button className="bg-[#F282B0] text-white text-sm font-semibold p-2 w-full mt-4 rounded-md">My Profile</button>
+          <button className="bg-[#F282B0] text-white text-sm font-semibold p-2 w-full mt-4 rounded-md">
+            My Profile
+          </button>
         </div>
       ) : (
         <p>Loading...</p>

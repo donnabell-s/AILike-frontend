@@ -160,12 +160,19 @@ const Signup = () => {
               />
             </div>
           </div>
-          <button
+          {/* <button
             type="submit"
             className="bg-[#C53771] font-medium text-white rounded-md py-2 hover:bg-[#a82d5c] transition-colors h-[60px] text-[18px]"
           >
             Sign Up
+          </button> */}
+          <button
+            type="submit"
+            className="bg-gradient-to-r from-[#C53771] to-[#F282B0] font-medium text-white rounded-md py-2 hover:from-[#a82d5c] hover:to-[#d65888] transition-colors h-[60px] text-[18px]"
+          >
+            Sign Up
           </button>
+
         </form>
       </Components.AuthLayoutWrapper>
     </div>

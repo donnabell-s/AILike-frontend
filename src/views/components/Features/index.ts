@@ -6,3 +6,5 @@ export { default as MyDetailsMini } from "./MyDetailsMini";
 export { default as MakePost } from "./MakePost";
 export { default as ListPosts } from "./ListPosts";
 export { default as FriendRecommendation } from "./FriendRecommendation";
+export { default as UserDetails } from "./UserDetails";
+export { default as MatchAnalytics } from "./MatchAnalytics";
