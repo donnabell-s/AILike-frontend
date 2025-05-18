@@ -178,41 +178,6 @@ export const getUserDetail = async (id: number) => {
 }
 
 
-// export const updateProfileImages = async (profileFile: File | null, headerFile: File | null) => {
-//     const token = localStorage.getItem('accessToken');
-//     if (!token) return null;
-
-//     const formData = new FormData();
-
-//     if (profileFile) {
-//         formData.append('profile_picture', profileFile);
-//     }
-
-//     if (headerFile) {
-//         formData.append('header_picture', headerFile);
-//     }
-
-//     try {
-//         const response = await fetch(`${API_URL}/user/`, {
-//             method: 'PATCH',
-//             headers: {
-//                 Authorization: `Bearer ${token}`,
-//             },
-//             body: formData,
-//         });
-
-//         if (!response.ok) {
-//             console.error('Failed to upload images:', response.status);
-//             return null;
-//         }
-
-//         return await response.json();
-//     } catch (error) {
-//         console.error('Error uploading profile/header images:', error);
-//         return null;
-//     }
-// };
-
 export const updateProfilePicture = async (profileFile: File) => {
     const token = localStorage.getItem('accessToken');
     if (!token || !profileFile) return null;
@@ -385,21 +350,19 @@ export const likePost = async (postId: number) => {
 
 }
 
-// export const unlikePost = async (postId: number) => {
-//     const token = localStorage.getItem('accessToken');
-//     if (!token) return null;
+export const unlikePost = async (postId: number) => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) return null;
 
-//     const response = await fetch(`${API_URL}/posts/${postId}/like/`, {
-//         method: 'DELETE',
-//         headers: {
-//             Authorization: `Bearer ${token}`,
-//             'Content-Type': 'application/json',
-//         },
-//     });
+    const response = await fetch(`${API_URL}/posts/${postId}/like/`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+    });
 
-//     if (!response.ok) {
-//         throw new Error('Unliking Post Failed');
-//     }
-
-//     return await response.json();
-// }
+    if (!response.ok) {
+        throw new Error('Unliking Post Failed');
+    }
+}

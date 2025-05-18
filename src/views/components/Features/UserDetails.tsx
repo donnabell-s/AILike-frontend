@@ -54,7 +54,7 @@ const UserDetails = ({ myDetails }: { myDetails: MyDetailsMiniData | null }) => 
     }
   };
 
-  // 📅 Format date of birth
+
   const formattedDOB = details?.date_of_birth
     ? new Date(details.date_of_birth).toLocaleDateString('en-US', {
         year: 'numeric',

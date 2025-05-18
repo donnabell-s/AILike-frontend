@@ -26,14 +26,14 @@ export const PATHS = {
             path: "home",
             label: "Home Page"
         },
-        MY_PROFILE: {
-            path: "my-profile",
-            label: "My Profile"
+        PROFILE: {
+            path: "profile/:userId",
+            label: "Profile"
         },
-        USER_PROFILE: {
-            path: "user-profile",
-            label: "User Profile"
-        }
+        // USER_PROFILE: {
+        //     path: "user-profile",
+        //     label: "User Profile"
+        // }
     }
 
 }

@@ -8,8 +8,7 @@ export const AppRoutes = () => {
             <Routes>
                 <Route path={PATHS.USER_MAIN.path} element={<Views.Main/>}>
                     <Route path={PATHS.USER_VIEW.HOME.path} element={<Views.Home/>} />
-                    <Route path={PATHS.USER_VIEW.MY_PROFILE.path} element={<Views.MyProfile/>} />
-                    <Route path={PATHS.USER_VIEW.USER_PROFILE.path} element={<Views.UserProfile/>} />
+                    <Route path={PATHS.USER_VIEW.PROFILE.path} element={<Views.Profile/>} />
                 </Route>
                 
                 <Route path={PATHS.AUTH.path} element={<Views.Authentication/>}>

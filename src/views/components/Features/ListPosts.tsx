@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import * as Services from "../../../services";
 import IndivPost from "./IndivPost";
 
@@ -16,62 +17,54 @@ interface MyDetailsMiniData {
   id: number;
 }
 
-type ListType = "all" | "user" | number;
-
 interface ListPostsProps {
   myDetails: MyDetailsMiniData | null;
-  list: ListType;
 }
 
-const ListPosts = ({ myDetails, list }: ListPostsProps) => {
+const ListPosts = ({ myDetails }: ListPostsProps) => {
   const [posts, setPosts] = useState<Post[]>([]);
+  const location = useLocation();
 
   useEffect(() => {
     const fetchPosts = async () => {
       const data = await Services.getAllPosts();
-      if (data) {
+
+      if (!data || !myDetails) return;
+
+      if (location.pathname.includes("/user/home")) {
+        // Show all posts
         setPosts(data);
+      } else if (location.pathname.includes("/user/profile/")) {
+        // Show only user's posts
+        const userPosts = data.filter((post: Post) => post.author.id === myDetails.id);
+        setPosts(userPosts);
       }
     };
+
     fetchPosts();
-  }, []);
+  }, [myDetails, location.pathname]);
 
-  const filterPosts = () => {
-    if (!myDetails) return [];
-
-    if (list === "all") return posts;
-    if (list === "user") return posts.filter(post => post.author.id === myDetails.id);
-    if (typeof list === "number") return posts.filter(post => post.author.id === list);
-
-    return posts;
-  };
-
-  const filteredPosts = filterPosts();
+  if (!myDetails) return null;
 
   return (
     <div>
-      {myDetails ? (
-        filteredPosts.length > 0 ? (
-          filteredPosts.map((post) => (
-            <IndivPost
-              key={post.id}
-              id={post.id}
-              authorId={post.author.id}
-              content={post.content}
-              likes={post.likes}
-              my_id={myDetails.id}
-              created_at={post.created_at}
-            />
-          ))
-        ) : (
-          <div></div>
-        )
+      {posts.length > 0 ? (
+        posts.map((post) => (
+          <IndivPost
+            key={post.id}
+            id={post.id}
+            authorId={post.author.id}
+            content={post.content}
+            likes={post.likes}
+            // my_id={myDetails.id}
+            created_at={post.created_at}
+          />
+        ))
       ) : (
-        <div></div>
+        <div className="text-center text-gray-500 mt-4">No posts to show.</div>
       )}
     </div>
   );
 };
 
 export default ListPosts;
-
