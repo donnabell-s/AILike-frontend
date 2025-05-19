@@ -3,6 +3,7 @@ import { FiUsers } from "react-icons/fi";
 import * as Services from "../../../services";
 import { formatDistanceToNow } from "date-fns";
 
+
 interface FriendRequestData {
   id: number;
   from_user: {

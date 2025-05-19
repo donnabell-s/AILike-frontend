@@ -1,5 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import * as Services from '../../../services';
+import { BsFillPersonCheckFill, BsFillPersonPlusFill, BsPersonDashFill  } from "react-icons/bs";
+import { RxCross2 } from "react-icons/rx";
+
 
 interface FriendActionButtonProps {
   myId: number;
@@ -131,8 +134,9 @@ const handleSendRequest = async () => {
       <button
         onClick={handleSendRequest}
         disabled={isLoading}
-        className="bg-[#BFA0D9] text-white px-4 py-2 font-semibold rounded-full shadow"
+        className="bg-[#BFA0D9] text-white px-4 py-2 font-semibold rounded-full shadow flex flex-row items-center gap-1.5 cursor-pointer"
       >
+        <BsFillPersonPlusFill />
         Add Friend
       </button>
     );
@@ -142,16 +146,17 @@ const handleSendRequest = async () => {
     if (isOutgoing) {
       return (
         <div className="flex gap-2">
-          <button className="bg-gray-400 text-white px-4 py-2 font-semibold rounded-full shadow" disabled>
+          <button className="bg-[#8E939A] text-white px-4 py-2 font-semibold rounded-full shadow" disabled>
             Pending
           </button>
-          <button
-            onClick={handleCancelRequest}
-            className="bg-red-500 text-white px-4 py-2 font-semibold rounded-full shadow"
-            disabled={isLoading}
-          >
-            ❌
-          </button>
+        <button
+        onClick={handleCancelRequest}
+        disabled={isLoading}
+        className="bg-[#E2656E] px-2 py-1 rounded-full flex items-center justify-center cursor-pointer"
+        >
+        <RxCross2 className="text-white text-2xl  hover:text-gray-200 transition" />
+        </button>
+
         </div>
       );
     } else {
@@ -159,17 +164,17 @@ const handleSendRequest = async () => {
         <div className="flex gap-2">
           <button
             onClick={() => handleRespond('accepted')}
-            className="bg-green-500 text-white px-4 py-2 font-semibold rounded-full shadow"
+            className="bg-[#86CAA3] text-white px-4 py-2 font-semibold rounded-full shadow flex flex-row gap-1.5 justify-center items-center cursor-pointer"
             disabled={isLoading}
           >
-            ✅ Accept
+            Confirm
           </button>
           <button
             onClick={() => handleRespond('rejected')}
-            className="bg-red-500 text-white px-4 py-2 font-semibold rounded-full shadow"
+            className="bg-[#E2656E] px-2 py-1 rounded-full flex items-center justify-center cursor-pointer"
             disabled={isLoading}
           >
-            ❌ Reject
+            <RxCross2 className="text-white text-2xl  hover:text-gray-200 transition" />
           </button>
         </div>
       );
@@ -181,19 +186,21 @@ const handleSendRequest = async () => {
       <div className="relative inline-block text-left" ref={dropdownRef}>
         <button
           onClick={() => setDropdownOpen(open => !open)}
-          className="bg-green-600 text-white px-4 py-2 font-semibold rounded-full shadow flex items-center gap-2"
+          className="bg-[#9FC1E5] text-white px-4 py-2 font-semibold rounded-full shadow flex items-center gap-2 cursor-pointer"
           disabled={isLoading}
         >
-          Friends ▼
+            <BsFillPersonCheckFill/>
+            Friends
         </button>
 
         {dropdownOpen && (
-          <div className="absolute right-0 mt-2 w-36 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-10">
+          <div className="absolute right-0 mt-2 w-36 bg-white rounded-md shadow-md z-10 flex flex-row">
             <button
               onClick={handleUnfriend}
-              className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-100"
+              className="block w-full text-left px-4 py-2 text-[#1F2937] hover:bg-red-100 flex flex-row items-center justify-start gap-2 cursor-pointer"
               disabled={isLoading}
             >
+                <BsPersonDashFill size={18}/>
               Unfriend
             </button>
           </div>

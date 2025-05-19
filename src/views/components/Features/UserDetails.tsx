@@ -127,7 +127,7 @@ const UserDetails = ({ myDetails }: { myDetails: MyDetailsMiniData | null }) => 
           </div>
 
           {/* Stats + Action Button */}
-          <div className="flex justify-end mt-2 gap-17">
+          <div className="flex justify-end mt-2">
             <div className="flex flex-row justify-center gap-7 text-[#1F2937]">
               <div className="flex flex-col items-center">
                 <p className="font-semibold">{details.post_count}</p>
@@ -142,6 +142,7 @@ const UserDetails = ({ myDetails }: { myDetails: MyDetailsMiniData | null }) => 
                 <p className="text-xs text-[#8E939A]">Likes</p>
               </div>
             </div>
+            <div className='w-47 flex justify-end'>
             {isMyProfile ? (
               <button className="bg-[#BFA0D9] text-white px-4 py-2 font-semibold rounded-full shadow">
                 Edit Profile
@@ -149,7 +150,7 @@ const UserDetails = ({ myDetails }: { myDetails: MyDetailsMiniData | null }) => 
             ) : (
               myId && details?.id && <Components.FriendActionButton myId={myId} viewedId={details.id} />
             )}
-
+            </div>
           </div>
 
           {/* User Info */}
