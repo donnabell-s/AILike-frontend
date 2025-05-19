@@ -101,6 +101,26 @@ export const getPendingRequests = async () => {
     }
 }
 
+export const sendFriendRequest = async (userId: number) => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) return null;
+
+    console.log('Sending friend request to user ID:', userId);
+
+    const response = await fetch(`${API_URL}/friends/requests/`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ to_user_id: userId }),
+    });
+
+    if (!response.ok) {
+        throw new Error('Sending Friend Request Failed');
+    }
+}
+
 export const respondToRequest = async (id: number, status: string) => {
     const token = localStorage.getItem('accessToken');
     if (!token) return null;
@@ -117,13 +137,11 @@ export const respondToRequest = async (id: number, status: string) => {
 
         if (!response.ok) {
             console.error('Failed to update response status:', response.status);
-            return null;
         }
 
-        return await response.json();
+        // return await response.json();
     } catch (error) {
         console.error('Error updating response status:', error);
-        return null;
     }
 }
 
@@ -366,3 +384,7 @@ export const unlikePost = async (postId: number) => {
         throw new Error('Unliking Post Failed');
     }
 }
+
+
+
+

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as Services from '../../../services';
 import { BsCameraFill } from "react-icons/bs";
 import { FaCakeCandles } from "react-icons/fa6"; // 🎂 Icon for DOB
+import * as Components from "../../components";
 
 interface MyDetailsMiniData {
   id: number;
@@ -141,9 +142,14 @@ const UserDetails = ({ myDetails }: { myDetails: MyDetailsMiniData | null }) => 
                 <p className="text-xs text-[#8E939A]">Likes</p>
               </div>
             </div>
-            <button className="bg-[#BFA0D9] text-white px-4 py-2 font-semibold rounded-full shadow">
-              {isMyProfile ? 'Edit Profile' : 'Add Friend'}
-            </button>
+            {isMyProfile ? (
+              <button className="bg-[#BFA0D9] text-white px-4 py-2 font-semibold rounded-full shadow">
+                Edit Profile
+              </button>
+            ) : (
+              myId && details?.id && <Components.FriendActionButton myId={myId} viewedId={details.id} />
+            )}
+
           </div>
 
           {/* User Info */}
