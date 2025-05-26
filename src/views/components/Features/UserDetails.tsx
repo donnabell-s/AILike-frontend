@@ -34,6 +34,13 @@ const UserDetails = ({ myDetails }: { myDetails: MyDetailsMiniData | null }) => 
     fetchMyId();
   }, []);
 
+  useEffect(() => {
+  if (details?.header_picture) {
+    console.log("Header Picture URL:", details.header_picture);
+  }
+}, [details?.header_picture]);
+
+
   const isMyProfile = myId === details?.id;
 
   const handleProfileClick = () => profileInputRef.current?.click();
@@ -144,7 +151,7 @@ const UserDetails = ({ myDetails }: { myDetails: MyDetailsMiniData | null }) => 
             </div>
             <div className='w-47 flex justify-end'>
             {isMyProfile ? (
-              <button className="bg-[#BFA0D9] text-white px-4 py-2 font-semibold rounded-full shadow">
+              <button className="bg-[#BFA0D9] hover:bg-[#a07ec4] text-white px-4 py-2 font-semibold rounded-full shadow cursor-pointer">
                 Edit Profile
               </button>
             ) : (

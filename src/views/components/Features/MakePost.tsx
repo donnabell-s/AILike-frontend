@@ -51,7 +51,7 @@ const MakePost = ({ myDetails }: { myDetails: MyDetailsMiniData | null }) => {
           />
 
           <button
-            className="bg-[#BFA0D9] text-white font-semibold w-21 h-10 rounded-4xl mt-3.5"
+            className="bg-[#BFA0D9] hover:bg-[#a988c4] text-white font-semibold w-21 h-10 rounded-4xl mt-3.5 cursor-pointer transition-colors"
             onClick={handlePostSubmit}
             type="button"
           >

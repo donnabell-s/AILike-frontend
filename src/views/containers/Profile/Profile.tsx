@@ -62,7 +62,7 @@ const Profile = () => {
           <Components.ListPosts myDetails={userDetails} />
         </div>
         <div className="w-[55%] flex flex-col gap-4">
-          {!isOwnProfile && <Components.MatchAnalytics />}
+          {!isOwnProfile && <Components.MatchAnalytics myDetails={userDetails} />}
           <Components.FriendRecommendation />
         </div>
       </div>

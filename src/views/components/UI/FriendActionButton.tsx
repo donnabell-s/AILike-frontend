@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import * as Services from '../../../services';
-import { BsFillPersonCheckFill, BsFillPersonPlusFill, BsPersonDashFill  } from "react-icons/bs";
-import { RxCross2 } from "react-icons/rx";
-
+import {
+  BsFillPersonCheckFill,
+  BsFillPersonPlusFill,
+  BsPersonDashFill,
+} from 'react-icons/bs';
+import { RxCross2 } from 'react-icons/rx';
 
 interface FriendActionButtonProps {
   myId: number;
@@ -24,13 +27,13 @@ const FriendActionButton: React.FC<FriendActionButtonProps> = ({ myId, viewedId 
 
   useEffect(() => {
     const loadRequests = async () => {
-      const requests = await Services.getPendingRequests(); // 🔁 Make sure this returns all (pending/accepted/rejected)
+      const requests = await Services.getPendingRequests();
       if (!requests) return;
 
-      const relevantRequest = requests.find((req: FriendRequest) => (
+      const relevantRequest = requests.find((req: FriendRequest) =>
         (req.from_user.id === myId && req.to_user === viewedId) ||
         (req.from_user.id === viewedId && req.to_user === myId)
-      ));
+      );
 
       setFriendRequest(relevantRequest || null);
     };
@@ -52,40 +55,27 @@ const FriendActionButton: React.FC<FriendActionButtonProps> = ({ myId, viewedId 
     const requests = await Services.getPendingRequests();
     if (!requests) return;
 
-    const relevantRequest = requests.find((req: FriendRequest) => (
+    const relevantRequest = requests.find((req: FriendRequest) =>
       (req.from_user.id === myId && req.to_user === viewedId) ||
       (req.from_user.id === viewedId && req.to_user === myId)
-    ));
+    );
 
     setFriendRequest(relevantRequest || null);
   };
 
-const handleSendRequest = async () => {
-  try {
-    setIsLoading(true);
-    console.log('Attempting to send friend request to:', viewedId); // Debug log
-    
-    if (!friendRequest || friendRequest.status === 'rejected') {
-      const response = await Services.sendFriendRequest(viewedId);
-      console.log('Request response:', response); // Debug log
-      await refreshFriendRequest();
-    } else {
-      console.log('Request already exists and is not rejected, skipping send.');
+  const handleSendRequest = async () => {
+    try {
+      setIsLoading(true);
+      if (!friendRequest || friendRequest.status === 'rejected') {
+        await Services.sendFriendRequest(viewedId);
+        await refreshFriendRequest();
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
     }
-  } catch (err) {
-    console.error('Error sending request:', err);
-    if (err instanceof Error) {
-      console.error('Error details:', {
-        message: err.message,
-        stack: err.stack,
-        // @ts-ignore
-        response: err.response?.data
-      });
-    }
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   const handleCancelRequest = async () => {
     try {
@@ -134,7 +124,7 @@ const handleSendRequest = async () => {
       <button
         onClick={handleSendRequest}
         disabled={isLoading}
-        className="bg-[#BFA0D9] text-white px-4 py-2 font-semibold rounded-full shadow flex flex-row items-center gap-1.5 cursor-pointer"
+        className="bg-[#BFA0D9] hover:bg-[#a988c4] text-white px-4 py-2 font-semibold rounded-full shadow flex flex-row items-center gap-1.5 cursor-pointer transition-colors"
       >
         <BsFillPersonPlusFill />
         Add Friend
@@ -146,17 +136,19 @@ const handleSendRequest = async () => {
     if (isOutgoing) {
       return (
         <div className="flex gap-2">
-          <button className="bg-[#8E939A] text-white px-4 py-2 font-semibold rounded-full shadow" disabled>
+          <button
+            className="bg-[#8E939A] text-white px-4 py-2 font-semibold rounded-full shadow cursor-default"
+            disabled
+          >
             Pending
           </button>
-        <button
-        onClick={handleCancelRequest}
-        disabled={isLoading}
-        className="bg-[#E2656E] px-2 py-1 rounded-full flex items-center justify-center cursor-pointer"
-        >
-        <RxCross2 className="text-white text-2xl  hover:text-gray-200 transition" />
-        </button>
-
+          <button
+            onClick={handleCancelRequest}
+            disabled={isLoading}
+            className="bg-[#E2656E] hover:bg-[#ca4d57] px-2 py-1 rounded-full flex items-center justify-center cursor-pointer transition-colors"
+          >
+            <RxCross2 className="text-white text-2xl hover:text-gray-200 transition" />
+          </button>
         </div>
       );
     } else {
@@ -164,17 +156,17 @@ const handleSendRequest = async () => {
         <div className="flex gap-2">
           <button
             onClick={() => handleRespond('accepted')}
-            className="bg-[#86CAA3] text-white px-4 py-2 font-semibold rounded-full shadow flex flex-row gap-1.5 justify-center items-center cursor-pointer"
+            className="bg-[#86CAA3] hover:bg-[#67C28E] text-white px-4 py-2 font-semibold rounded-full shadow flex flex-row gap-1.5 justify-center items-center cursor-pointer transition-colors"
             disabled={isLoading}
           >
             Confirm
           </button>
           <button
             onClick={() => handleRespond('rejected')}
-            className="bg-[#E2656E] px-2 py-1 rounded-full flex items-center justify-center cursor-pointer"
+            className="bg-[#E2656E] hover:bg-[#ca4d57] px-2 py-1 rounded-full flex items-center justify-center cursor-pointer transition-colors"
             disabled={isLoading}
           >
-            <RxCross2 className="text-white text-2xl  hover:text-gray-200 transition" />
+            <RxCross2 className="text-white text-2xl hover:text-gray-200 transition" />
           </button>
         </div>
       );
@@ -185,22 +177,22 @@ const handleSendRequest = async () => {
     return (
       <div className="relative inline-block text-left" ref={dropdownRef}>
         <button
-          onClick={() => setDropdownOpen(open => !open)}
-          className="bg-[#9FC1E5] text-white px-4 py-2 font-semibold rounded-full shadow flex items-center gap-2 cursor-pointer"
+          onClick={() => setDropdownOpen((open) => !open)}
+          className="bg-[#9FC1E5] hover:bg-[#82addb] text-white px-4 py-2 font-semibold rounded-full shadow flex items-center gap-2 cursor-pointer transition-colors"
           disabled={isLoading}
         >
-            <BsFillPersonCheckFill/>
-            Friends
+          <BsFillPersonCheckFill />
+          Friends
         </button>
 
         {dropdownOpen && (
           <div className="absolute right-0 mt-2 w-36 bg-white rounded-md shadow-md z-10 flex flex-row">
             <button
               onClick={handleUnfriend}
-              className="block w-full text-left px-4 py-2 text-[#1F2937] hover:bg-red-100 flex flex-row items-center justify-start gap-2 cursor-pointer"
+              className="block w-full text-left px-4 py-2 text-[#1F2937] hover:bg-red-100 flex flex-row items-center justify-start gap-2 cursor-pointer transition-colors"
               disabled={isLoading}
             >
-                <BsPersonDashFill size={18}/>
+              <BsPersonDashFill size={18} />
               Unfriend
             </button>
           </div>
