@@ -339,7 +339,7 @@ export const makePost = async (content: string) => {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ content }),
+        body: JSON.stringify({ content, topic_ids: [] }),
     });
 
     if (!response.ok) {
