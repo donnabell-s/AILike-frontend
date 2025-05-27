@@ -1,12 +1,29 @@
 import React, { useState } from "react";
 import * as Service from "../../../services";
 
+interface Post {
+  id: number;
+  author: {
+    id: number;
+  };
+  content: string;
+  likes: number[];
+  created_at: string;
+}
+
+
 interface MyDetailsMiniData {
   id: number;
   profile_picture?: string;
 }
 
-const MakePost = ({ myDetails }: { myDetails: MyDetailsMiniData | null }) => {
+const MakePost = ({
+  myDetails,
+  onPostCreated,
+}: {
+  myDetails: MyDetailsMiniData | null;
+  onPostCreated: (post: Post) => void;
+}) => {
   const [postContent, setPostContent] = useState("");
 
   const handlePostChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -16,11 +33,12 @@ const MakePost = ({ myDetails }: { myDetails: MyDetailsMiniData | null }) => {
   const handlePostSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-        await Service.makePost(postContent)
-        console.log("Post successful");
-        setPostContent(""); // Clear after submission
+      const newPost = await Service.makePost(postContent);
+      console.log("Post successful");
+      setPostContent("");
+      if (newPost) onPostCreated(newPost);
     } catch (error) {
-        console.error("Post Failed", error)
+      console.error("Post Failed", error);
     }
   };
 
@@ -49,7 +67,6 @@ const MakePost = ({ myDetails }: { myDetails: MyDetailsMiniData | null }) => {
               e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
             }}
           />
-
           <button
             className="bg-[#BFA0D9] hover:bg-[#a988c4] text-white font-semibold w-21 h-10 rounded-4xl mt-3.5 cursor-pointer transition-colors"
             onClick={handlePostSubmit}

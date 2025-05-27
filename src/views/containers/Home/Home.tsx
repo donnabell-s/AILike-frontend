@@ -2,9 +2,20 @@ import { useEffect, useState } from "react";
 import * as Components from "../../components";
 import * as Services from "../../../services";
 
+export interface Post {
+  id: number;
+  author: {
+    id: number;
+  };
+  content: string;
+  likes: number[];
+  created_at: string;
+}
+
 const Home = () => {
   const [loading, setLoading] = useState(true);
-  const [myDetails, setMyDetails] = useState(null);
+  const [myDetails, setMyDetails] = useState<any>(null);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -12,7 +23,6 @@ const Home = () => {
       if (data) {
         const profilePicUrl = await Services.getProfilePictureUrl(data.id);
         const headerPicUrl = await Services.getHeaderPictureUrl(data.id);
-
         setMyDetails({
           ...data,
           profile_picture: profilePicUrl,
@@ -21,29 +31,39 @@ const Home = () => {
       }
       setLoading(false);
     };
-
     fetchDetails();
   }, []);
 
-    if (loading) {
-    return (
-        <div className="flex items-center justify-center h-full">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
-        </div>
-    );
-    }
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const data = await Services.getAllPosts();
+      if (data) setPosts(data);
+    };
+    fetchPosts();
+  }, []);
 
+  const addNewPost = (newPost: Post) => {
+    setPosts((prevPosts) => [newPost, ...prevPosts]);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center">
       <div className="flex flex-row w-full max-w-screen-xl p-4 gap-4">
         <div className="w-[55%]">
-          <Components.MyDetailsMini/>
+          <Components.MyDetailsMini />
         </div>
         <div className="w-full flex flex-col gap-6">
-          <Components.MakePost myDetails={myDetails} />
+          <Components.MakePost myDetails={myDetails} onPostCreated={addNewPost} />
           <div className="h-[1px] bg-[#8E939A] rounded-full" />
-          <Components.ListPosts myDetails={myDetails} />
+          <Components.ListPosts myDetails={myDetails} posts={posts} />
         </div>
         <div className="w-[55%]">
           <Components.FriendRecommendation />

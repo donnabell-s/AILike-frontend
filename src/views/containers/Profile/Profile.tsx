@@ -3,20 +3,32 @@ import * as Components from "../../components";
 import * as Services from "../../../services";
 import { useLocation } from "react-router";
 
+interface Post {
+  id: number;
+  author: {
+    id: number;
+  };
+  content: string;
+  likes: number[];
+  created_at: string;
+}
+
 const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [userDetails, setUserDetails] = useState<any>(null);
   const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+  const [allPosts, setAllPosts] = useState<Post[]>([]);
 
   const location = useLocation();
-  const segments = location.pathname.split('/');
+  const segments = location.pathname.split("/");
   const userId = parseInt(segments[segments.length - 1], 10);
 
   useEffect(() => {
     const fetchDetails = async () => {
-      const [userData, currentUser] = await Promise.all([
+      const [userData, currentUser, posts] = await Promise.all([
         Services.getUserDetail(userId),
         Services.getMyDetails(),
+        Services.getAllPosts(),  // <-- make sure this exists or replace with your existing posts fetch
       ]);
 
       if (userData) {
@@ -32,6 +44,10 @@ const Profile = () => {
 
       if (currentUser?.id) {
         setCurrentUserId(currentUser.id);
+      }
+
+      if (posts) {
+        setAllPosts(posts);
       }
 
       setLoading(false);
@@ -59,7 +75,12 @@ const Profile = () => {
         <div className="w-full flex flex-col gap-6">
           <Components.UserDetails myDetails={userDetails} />
           <div className="h-[1px] bg-[#8E939A] rounded-full" />
-          <Components.ListPosts myDetails={userDetails} />
+          {/* Pass all posts & profileUserId */}
+          <Components.ListPosts
+            myDetails={userDetails}
+            posts={allPosts}
+            profileUserId={userId}
+          />
         </div>
         <div className="w-[55%] flex flex-col gap-4">
           {!isOwnProfile && <Components.MatchAnalytics myDetails={userDetails} />}
