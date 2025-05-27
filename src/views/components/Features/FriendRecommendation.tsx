@@ -49,12 +49,12 @@ const FriendRecommendation = () => {
 
   return (
     <div className="bg-white p-5 rounded-md">
-      <span className="font-bold text-[#1F2937] block mb-4">Users You Might Like</span>
+      <span className="font-bold text-[#1F2937] block mb-5">Users You Might Like</span>
 
       {matches.length === 0 ? (
         <p className="text-[#8E939A]">No recommendations available.</p>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {matches.map((match) => (
             <div key={match.user_id} className="flex items-center gap-3">
               <img

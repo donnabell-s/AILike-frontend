@@ -63,13 +63,30 @@ const FriendRequest = () => {
     }
   };
 
+  // const handleResponse = async (id: number, status: "accepted" | "rejected") => {
+  //   const updated = await Services.respondToRequest(id, status);
+  //   if (updated) {
+  //     setRequests((prev) => prev.filter((req) => req.id !== id));
+  //     setPendingCount((prev) => prev - 1);
+  //   }
+  // };
+
   const handleResponse = async (id: number, status: "accepted" | "rejected") => {
+    // Optimistically update UI
+    setRequests((prev) => prev.filter((req) => req.id !== id));
+    setPendingCount((prev) => Math.max(prev - 1, 0));
+
+    // Send to backend and refetch to ensure sync
     const updated = await Services.respondToRequest(id, status);
-    if (updated) {
-      setRequests((prev) => prev.filter((req) => req.id !== id));
-      setPendingCount((prev) => prev - 1);
+    if (updated && myId) {
+      // optional: only refetch if needed
+      setTimeout(() => {
+        fetchFriendRequests(myId); // refresh from server
+      }, 500);
     }
   };
+
+
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -93,10 +110,11 @@ const FriendRequest = () => {
       <div className="relative w-10 h-10">
         {/* Notification Badge */}
         {pendingCount > 0 && (
-          <div className="absolute -top-1 -right-1 bg-[#BFA0D9] text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center z-10 border-2 border-white font-semibold">
-            {pendingCount}
+          <div className="absolute -top-1 -right-1 bg-[#BFA0D9] text-white text-[10px] min-w-[1.25rem] h-5 rounded-full flex items-center justify-center z-10 border-2 border-white font-semibold px-1">
+            {pendingCount > 9 ? '9+' : pendingCount}
           </div>
         )}
+
 
         {/* Icon Button */}
         <button

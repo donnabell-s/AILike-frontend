@@ -21,10 +21,14 @@ interface MyDetailsMiniData {
 }
 
 const UserDetails = ({ myDetails }: { myDetails: MyDetailsMiniData | null }) => {
-  const [details, setDetails] = useState(myDetails);
+  const [details, setDetails] = useState<MyDetailsMiniData | null>(myDetails);
   const [myId, setMyId] = useState<number | null>(null);
   const profileInputRef = useRef<HTMLInputElement>(null);
   const headerInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setDetails(myDetails);
+  }, [myDetails]);
 
   useEffect(() => {
     const fetchMyId = async () => {
@@ -50,17 +54,29 @@ const UserDetails = ({ myDetails }: { myDetails: MyDetailsMiniData | null }) => 
     const file = e.target.files?.[0];
     if (file) {
       const updatedUser = await Services.updateProfilePicture(file);
-      if (updatedUser) setDetails((prev) => ({ ...prev!, profile_picture: updatedUser.profile_picture }));
+      if (updatedUser) {
+        setDetails((prev) => ({
+          ...prev!,
+          profile_picture: `${updatedUser.profile_picture}?t=${new Date().getTime()}`
+        }));
+      }
     }
   };
+
 
   const handleHeaderChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const updatedUser = await Services.updateHeaderPicture(file);
-      if (updatedUser) setDetails((prev) => ({ ...prev!, header_picture: updatedUser.header_picture }));
+      if (updatedUser) {
+        setDetails((prev) => ({
+          ...prev!,
+          header_picture: `${updatedUser.header_picture}?t=${new Date().getTime()}`
+        }));
+      }
     }
   };
+
 
 
   const formattedDOB = details?.date_of_birth
