@@ -35,6 +35,9 @@ export const RegisterUser = async (username: string, email: string, password: st
     console.log('Registration successful');
 }
 
+
+
+
 export const ReadAccessToken = async (endpoint: string) => {
     const token = localStorage.getItem('accessToken');
     if (!token) return null;

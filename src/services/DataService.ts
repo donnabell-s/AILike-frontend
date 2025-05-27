@@ -170,6 +170,29 @@ export const getMyDetails = async () => {
     }
 }
 
+export const EditUser = async (username: string, first_name: string, last_name: string, pronouns: string, date_of_birth: string) => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) return null;
+
+    try {
+        const response = await fetch(`${API_URL}/user/`, {
+            method: 'PATCH',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, first_name, last_name, pronouns, date_of_birth }),
+        });
+
+        if (!response.ok) {
+            console.error('Failed to update user details:', response.status);
+        }
+
+    } catch (error) {
+        console.error('Error updating user details:', error);
+    }
+}
+
 export const getUserDetail = async (id: number) => {
     const token = localStorage.getItem('accessToken');
     if (!token) return null;
